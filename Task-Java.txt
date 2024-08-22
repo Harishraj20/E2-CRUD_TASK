@@ -1,0 +1,117 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class OperationsCrud {
+    static int[] array;
+    static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        System.out.print("Enter the size of the array: ");
+        int len = scanner.nextInt();
+        scanner.nextLine(); 
+        array = new int[len];
+
+        System.out.println("Enter " + len + " elements for the array:");
+        for (int i = 0; i < len; i++) {
+            System.out.print("Element at index " + (i) + ": ");
+            array[i] = scanner.nextInt();
+        }
+
+     
+            displayMenu();
+            System.out.print("Enter any number (1 to 5): ");
+        
+            int selectChoice = scanner.nextInt();
+            switch (selectChoice) {
+                case 1:
+                    create();
+                case 2:
+                    read();
+                    break;
+                case 3:
+                    update();
+                    break;
+                case 4:
+                    delete();
+                    break;
+                case 5:
+                    Nooperations();
+                    break;
+                default:
+                    System.out.println("Invalid choice is entered!!. Please enter a number between 1 to 5.");
+                    break;
+        }
+        scanner.close();
+    }
+
+    public static void displayMenu() {
+        System.out.println("List of the operations can be performed:");
+        System.out.println("1. Create");
+        System.out.println("2. Read");
+        System.out.println("3. Update");
+        System.out.println("4. Delete");
+        System.out.println("5. No Operation");
+    }
+
+    public static void create() {
+        System.out.print("Enter the index where new element to be added: ");
+        int chooseIndex = scanner.nextInt();
+        System.out.print("Enter the new value: ");
+        int newValue = scanner.nextInt();
+        if (chooseIndex < 0 || chooseIndex > array.length) {
+            System.out.println("Invalid index");
+            return;
+        }
+        int[] newArray = new int[array.length + 1];
+        for (int j = 0; j < chooseIndex; j++) {
+            newArray[j] = array[j];
+        }
+        newArray[chooseIndex] = newValue;
+        for (int j = chooseIndex; j < array.length; j++) {
+            newArray[j + 1] = array[j];
+        }
+        array = newArray;
+        System.out.println("The Array after adding element " + newValue + " at index " + chooseIndex + ":");
+        read();
+    }
+    
+    
+    public static void read() {
+        System.out.println("The array elements are: ");
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public static void update() {
+        System.out.print("Enter index to update (0 to " + (array.length - 1) + "): ");
+        int index = scanner.nextInt();
+        if (index >= 0 && index < array.length) {
+            System.out.print("Enter new value: ");
+            int newValue = scanner.nextInt();
+            array[index] = newValue;
+            System.out.println("Updated array: ");
+            read();
+        } else {
+            System.out.println("Invalid index is entered");
+        }
+    }
+    public static void Nooperations(){
+        System.out.println("--- No changes are made as the user wish to perform no operation ---");
+    }
+
+    public static void delete() {
+        System.out.print("Enter index of the element to delete: ");
+        int indexToDelete = scanner.nextInt();
+        if (indexToDelete < 0 || indexToDelete >= array.length) {
+            System.out.println("The entered index is Invalid. Operation cannot be performed.");
+        } else {
+            for (int i = indexToDelete; i < array.length - 1; i++) {
+                array[i] = array[i + 1];
+            }
+            array = Arrays.copyOf(array, array.length - 1);
+            System.out.println("Updated Array after deleting the index " + indexToDelete + " is : " + Arrays.toString(array));
+        }
+    }
+}
